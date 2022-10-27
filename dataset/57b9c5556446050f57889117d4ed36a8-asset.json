@@ -1,0 +1,48 @@
+{
+    "asset": {
+        "format": "png",
+        "id": "57b9c5556446050f57889117d4ed36a8",
+        "name": "10.png",
+        "path": "file:C:/Users/20826/Documents/GitHub/learn_yolov1/dataset/image/10.png",
+        "size": {
+            "width": 720,
+            "height": 720
+        },
+        "state": 2,
+        "type": 1
+    },
+    "regions": [
+        {
+            "id": "cXYdFpOAK",
+            "type": "RECTANGLE",
+            "tags": [
+                "book"
+            ],
+            "boundingBox": {
+                "height": 307.4907292954265,
+                "width": 356.885043263288,
+                "left": 1.7799752781211373,
+                "top": 412.50927070457357
+            },
+            "points": [
+                {
+                    "x": 1.7799752781211373,
+                    "y": 412.50927070457357
+                },
+                {
+                    "x": 358.66501854140915,
+                    "y": 412.50927070457357
+                },
+                {
+                    "x": 358.66501854140915,
+                    "y": 720
+                },
+                {
+                    "x": 1.7799752781211373,
+                    "y": 720
+                }
+            ]
+        }
+    ],
+    "version": "2.2.0"
+}
