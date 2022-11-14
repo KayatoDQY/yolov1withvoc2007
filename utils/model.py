@@ -10,97 +10,97 @@ class YOLOv1(nn.Module):
     def forward(self, x):
         for layer in self.layers:
             x = layer(x)
-            print(x.shape)
+            #print(x.shape)
         return x
 
     def create_layer(self):
         layer = []
         layer.append(nn.Conv2d(in_channels=3, out_channels=64,
-                     kernel_size=7, stride=2, padding=3))
-        layer.append(nn.BatchNorm2d(64))
-        layer.append(nn.MaxPool2d(kernel_size=2, stride=2))
+                     kernel_size=7, stride=2, padding=3).cuda())
+        layer.append(nn.BatchNorm2d(64).cuda())
+        layer.append(nn.MaxPool2d(kernel_size=2, stride=2).cuda())
 
         layer.append(nn.Conv2d(in_channels=64, out_channels=192,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(192))
-        layer.append(nn.MaxPool2d(kernel_size=2, stride=2))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(192).cuda())
+        layer.append(nn.MaxPool2d(kernel_size=2, stride=2).cuda())
 
         layer.append(nn.Conv2d(in_channels=192, out_channels=128,
-                     kernel_size=1, stride=1, padding=0))
-        layer.append(nn.BatchNorm2d(128))
+                     kernel_size=1, stride=1, padding=0).cuda())
+        layer.append(nn.BatchNorm2d(128).cuda())
         layer.append(nn.Conv2d(in_channels=128, out_channels=256,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(256))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(256).cuda())
         layer.append(nn.Conv2d(in_channels=256, out_channels=256,
-                     kernel_size=1, stride=1, padding=0))
-        layer.append(nn.BatchNorm2d(256))
+                     kernel_size=1, stride=1, padding=0).cuda())
+        layer.append(nn.BatchNorm2d(256).cuda())
         layer.append(nn.Conv2d(in_channels=256, out_channels=512,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(512))
-        layer.append(nn.MaxPool2d(kernel_size=2, stride=2))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(512).cuda())
+        layer.append(nn.MaxPool2d(kernel_size=2, stride=2).cuda())
 
         layer.append(nn.Conv2d(in_channels=512, out_channels=256,
-                     kernel_size=1, stride=1, padding=0))
-        layer.append(nn.BatchNorm2d(256))
+                     kernel_size=1, stride=1, padding=0).cuda())
+        layer.append(nn.BatchNorm2d(256).cuda())
         layer.append(nn.Conv2d(in_channels=256, out_channels=512,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(512))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(512).cuda())
         layer.append(nn.Conv2d(in_channels=512, out_channels=256,
-                     kernel_size=1, stride=1, padding=0))
-        layer.append(nn.BatchNorm2d(256))
+                     kernel_size=1, stride=1, padding=0).cuda())
+        layer.append(nn.BatchNorm2d(256).cuda())
         layer.append(nn.Conv2d(in_channels=256, out_channels=512,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(512))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(512).cuda())
         layer.append(nn.Conv2d(in_channels=512, out_channels=256,
-                     kernel_size=1, stride=1, padding=0))
-        layer.append(nn.BatchNorm2d(256))
+                     kernel_size=1, stride=1, padding=0).cuda())
+        layer.append(nn.BatchNorm2d(256).cuda())
         layer.append(nn.Conv2d(in_channels=256, out_channels=512,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(512))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(512).cuda())
         layer.append(nn.Conv2d(in_channels=512, out_channels=256,
-                     kernel_size=1, stride=1, padding=0))
-        layer.append(nn.BatchNorm2d(256))
+                     kernel_size=1, stride=1, padding=0).cuda())
+        layer.append(nn.BatchNorm2d(256).cuda())
         layer.append(nn.Conv2d(in_channels=256, out_channels=512,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(512))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(512).cuda())
         layer.append(nn.Conv2d(in_channels=512, out_channels=512,
-                     kernel_size=1, stride=1, padding=0))
-        layer.append(nn.BatchNorm2d(512))
+                     kernel_size=1, stride=1, padding=0).cuda())
+        layer.append(nn.BatchNorm2d(512).cuda())
         layer.append(nn.Conv2d(in_channels=512, out_channels=1024,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(1024))
-        layer.append(nn.MaxPool2d(kernel_size=2, stride=2))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(1024).cuda())
+        layer.append(nn.MaxPool2d(kernel_size=2, stride=2).cuda())
 
         layer.append(nn.Conv2d(in_channels=1024, out_channels=512,
-                     kernel_size=1, stride=1, padding=0))
-        layer.append(nn.BatchNorm2d(512))
+                     kernel_size=1, stride=1, padding=0).cuda())
+        layer.append(nn.BatchNorm2d(512).cuda())
         layer.append(nn.Conv2d(in_channels=512, out_channels=1024,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(1024))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(1024).cuda())
         layer.append(nn.Conv2d(in_channels=1024, out_channels=512,
-                     kernel_size=1, stride=1, padding=0))
-        layer.append(nn.BatchNorm2d(512))
+                     kernel_size=1, stride=1, padding=0).cuda())
+        layer.append(nn.BatchNorm2d(512).cuda())
         layer.append(nn.Conv2d(in_channels=512, out_channels=1024,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(1024))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(1024).cuda())
         layer.append(nn.Conv2d(in_channels=1024, out_channels=1024,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(1024))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(1024).cuda())
         layer.append(nn.Conv2d(in_channels=1024, out_channels=1024,
-                     kernel_size=3, stride=2, padding=1))
-        layer.append(nn.BatchNorm2d(1024))
+                     kernel_size=3, stride=2, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(1024).cuda())
 
         layer.append(nn.Conv2d(in_channels=1024, out_channels=1024,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(1024))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(1024).cuda())
         layer.append(nn.Conv2d(in_channels=1024, out_channels=1024,
-                     kernel_size=3, stride=1, padding=1))
-        layer.append(nn.BatchNorm2d(1024))
+                     kernel_size=3, stride=1, padding=1).cuda())
+        layer.append(nn.BatchNorm2d(1024).cuda())
 
-        layer.append(nn.Flatten())
-        layer.append(nn.Linear(in_features=50176, out_features=4096))
-        layer.append(nn.LeakyReLU(0.1))
-        layer.append(nn.Linear(in_features=4096, out_features=1470))
+        layer.append(nn.Flatten().cuda())
+        layer.append(nn.Linear(in_features=50176, out_features=4096).cuda())
+        layer.append(nn.LeakyReLU(0.1).cuda())
+        layer.append(nn.Linear(in_features=4096, out_features=1470).cuda())
         return layer
 
 
