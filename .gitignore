@@ -1,1 +1,3 @@
 dataset/VOCdevkit
+utils/__pycache__
+*.pyc
