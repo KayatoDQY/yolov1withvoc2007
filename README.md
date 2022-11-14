@@ -4,13 +4,13 @@
 
 [Pascal VOC Dataset Mirror (pjreddie.com)](https://pjreddie.com/projects/pascal-voc-dataset-mirror/)
 
-![VOCweb](C:\Users\20826\Documents\GitHub\yolov1withvoc2007\imgofreadme\VOCweb.png)
+![VOCweb](https://github.com/KayatoDQY/yolov1withvoc2007/blob/main/imgofreadme/VOCweb.png)
 
 这里使用VOC2007，需要下载` Train/Validation Data `和`Test Data With Annotations`
 
 下载后解压两个文件夹均为以下格式
 
-![VOCfile](C:\Users\20826\Documents\GitHub\yolov1withvoc2007\imgofreadme\VOCfile.png)
+![VOCfile](https://github.com/KayatoDQY/yolov1withvoc2007/blob/main/imgofreadme/VOCfile.png)
 
 拖拽这两个文件夹直接合并
 
