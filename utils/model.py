@@ -8,9 +8,11 @@ class YOLOv1(nn.Module):
         self.layers = self.create_layer()
 
     def forward(self, x):
+        batchsize = x.shape[0]
         for layer in self.layers:
             x = layer(x)
-            #print(x.shape)
+            # print(x.shape)
+        x = x.view(batchsize, 30, 7, 7)
         return x
 
     def create_layer(self):
@@ -104,15 +106,6 @@ class YOLOv1(nn.Module):
         return layer
 
 
-# 测试网络连通
-"""
-x=torch.rand(1,3,448,448)
-model=YOLOv1()
-x=model.forward(x)
-print(x)
-"""
-
-
 class YOLOv1loss(nn.Module):
     def __init__(self):
         super(YOLOv1loss, self).__init__
@@ -141,39 +134,61 @@ class YOLOv1loss(nn.Module):
         return iou
 
     def loss(self, pre, lab):
-        # pre有7*7*30组，
-        # lab有7*7*（框的大小位置4,20类的概率）
-        eachlabsize = 4+20
-        eachpresize = 5+5+20
+        pre = pre.double()
+        lab = lab.double()
+        batchsize = pre.shape[0]
         addressloss = 0
         sizeloss = 0
-        objloss=0
-        noobjloss=0
-        for i in range(7*7):
-            eachpre = pre[:, i*eachpresize:(i+1)*eachpresize-1]
-            eachlab = lab[:, i*eachlabsize:(i+1)*eachlabsize-1]
-            iou1 = self.calculateIOU(eachpre[:, 0:3], eachlab[:, 0:3])
-            iou2 = self.calculateIOU(eachpre[:, 5:8], eachlab[:, 0:3])
+        objloss = 0
+        noobjloss = 0
+        classloss = 0
+        for i in range(batchsize):
+            eachpre = pre[i, :, :, :]
+            eachlab = lab[i, :, :, :]
+            for px in range(7):
+                for py in range(7):
+                    if eachlab[4, px, py] == 1:
+                        iou1 = self.calculateIOU(
+                            eachpre[0:4, px, py], eachlab[0:4, px, py])
+                        iou2 = self.calculateIOU(
+                            eachpre[5:9, px, py], eachlab[5:9, px, py])
+                        if iou1 >= iou2:
+                            cxp = px*64+eachpre[0, px, py]
+                            cyp = py*64+eachpre[1, px, py]
+                            cxl = px*64+eachlab[0, px, py]
+                            cyl = py*64+eachlab[1, px, py]
+                            addressloss = addressloss+self.coord * \
+                                ((cxl-cxp)**2+(cyl-cyp)**2)
+                            hp = eachpre[2, px, py]
+                            wp = eachpre[3, px, py]
+                            hl = eachlab[2, px, py]
+                            wl = eachlab[3, px, py]
+                            sizeloss = sizeloss+self.coord * \
+                                ((hp**0.5-hl**0.5)**2+(wp**0.5-wl**0.5)**2)
+                            cp = eachpre[9, px, py]
+                            cl = iou1
+                            noobjloss = noobjloss+self.nooobj*(cp-cl)**2
+                        elif iou1 < iou2:
+                            cxp = px*64+eachpre[5, px, py]
+                            cyp = py*64+eachpre[6, px, py]
+                            cxl = px*64+eachlab[5, px, py]
+                            cyl = py*64+eachlab[6, px, py]
+                            addressloss = addressloss+self.coord * \
+                                ((cxl-cxp)**2+(cyl-cyp)**2)
+                            hp = eachpre[7, px, py]
+                            wp = eachpre[8, px, py]
+                            hl = eachlab[7, px, py]
+                            wl = eachlab[8, px, py]
+                            sizeloss = sizeloss+self.coord * \
+                                ((hp**0.5-hl**0.5)**2+(wp**0.5-wl**0.5)**2)
+                            cp = eachpre[9, px, py]
+                            cl = iou2
+                            noobjloss = noobjloss+self.nooobj*(cp-cl)**2
+                    else:
+                        noobjloss = noobjloss+self.nooobj * \
+                            (eachpre[4, px, py]+eachpre[9, px, py])**2
+                    classloss = classloss + \
+                        torch.sum(
+                            (self.pred[10:, px, py] - eachlab[10:, px, py]) ** 2)
 
-            if iou1 >= iou2:
-                addressloss = addressloss+self.coord * \
-                    ((eachpre[:, 0]-eachlab[:, 0]) **
-                     2+(eachpre[:, 1]-eachlab[:1])**2)
-                sizeloss = sizeloss+self.coord*(((eachpre[:, 2]-eachpre[:, 0])**0.5-(eachlab[:, 2]-eachlab[:, 0])**0.5)**2+(
-                    (eachpre[:, 3]-eachpre[:, 1])**0.5-(eachlab[:, 3]-eachlab[:, 1])**0.5)**2)
-                objloss = objloss+(eachpre[:,4]-iou1)**2
-                noobjloss=noobjloss+self.nooobj*(eachpre[:,9]-iou2)**2
-
-            elif iou1 < iou2:
-                addressloss = addressloss+self.coord * \
-                    ((eachpre[:, 5]-eachlab[:, 0]) **
-                     2+(eachpre[:, 6]-eachlab[:1])**2)
-                sizeloss = sizeloss+self.coord*(((eachpre[:, 7]-eachpre[:, 5])**0.5-(eachlab[:, 2]-eachlab[:, 0])**0.5)**2+(
-                    (eachpre[:, 8]-eachpre[:, 6])**0.5-(eachlab[:, 3]-eachlab[:, 1])**0.5)**2)
-                objloss = objloss+(eachpre[:,9]-iou2)**2
-                noobjloss=noobjloss+self.nooobj*(eachpre[:,4]-iou1)**2
-                
-            classloss=classloss+torch.sum((eachpre[10:29]-eachlab[4,23])**2)
-
-        return addressloss+sizeloss+objloss+noobjloss+classloss
-        
+        return (addressloss+sizeloss+objloss+noobjloss+classloss)/batchsize

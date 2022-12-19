@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 from PIL import Image
 from PIL import ImageDraw
-import utils.VOC2007dataset as VOC2007
+import utils.VOCdataset as VOC2007
 import utils.train as train
 
 datas=VOC2007.VOC_Imagedataset()
